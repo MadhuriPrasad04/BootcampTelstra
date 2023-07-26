@@ -1,0 +1,225 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/):
+
+Current Mongosh Log ID: 64c09eafba064294125602ff
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.1
+Using MongoDB:          6.0.8
+Using Mongosh:          1.10.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+
+To help improve our products, anonymous usage data is collected and sent to MongoDB periodically (https://www.mongodb.com/legal/privacy-policy).
+You can opt-out by running the disableTelemetry() command.
+
+------
+   The server generated these startup warnings when booting
+   2023-07-26T09:32:14.066+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin      40.00 KiB
+bootcamp   72.00 KiB
+config    108.00 KiB
+local      40.00 KiB
+test> use bootcamp
+switched to db bootcamp
+bootcamp> show collections
+employee
+bootcamp> db.employee.find()
+[
+  {
+    _id: ObjectId("64c09c33e8b9b72b3afae551"),
+    name: 'Madhuri',
+    dept: 'data',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c09d17e8b9b72b3afae552"),
+    name: 'Maani',
+    age: 23,
+    bonus: 1000
+  },
+  {
+    _id: ObjectId("64c09d62e8b9b72b3afae553"),
+    'phoneno.': Long("9880632500"),
+    Address: 'Blore'
+  }
+]
+bootcamp> db.employee.insertOne({name:"Madri",age:24})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64c0a236ba06429412560300")
+}
+bootcamp> db.employee.insertOne({name:"Madri",age:24,salary:30000})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64c0a279ba06429412560301")
+}
+bootcamp> db.employee.find()
+[
+  {
+    _id: ObjectId("64c09c33e8b9b72b3afae551"),
+    name: 'Madhuri',
+    dept: 'data',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c09d17e8b9b72b3afae552"),
+    name: 'Maani',
+    age: 23,
+    bonus: 1000
+  },
+  {
+    _id: ObjectId("64c09d62e8b9b72b3afae553"),
+    'phoneno.': Long("9880632500"),
+    Address: 'Blore'
+  },
+  { _id: ObjectId("64c0a236ba06429412560300"), name: 'Madri', age: 24 },
+  {
+    _id: ObjectId("64c0a279ba06429412560301"),
+    name: 'Madri',
+    age: 24,
+    salary: 30000
+  }
+]
+bootcamp> db.employee.find().pretty()
+[
+  {
+    _id: ObjectId("64c09c33e8b9b72b3afae551"),
+    name: 'Madhuri',
+    dept: 'data',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c09d17e8b9b72b3afae552"),
+    name: 'Maani',
+    age: 23,
+    bonus: 1000
+  },
+  {
+    _id: ObjectId("64c09d62e8b9b72b3afae553"),
+    'phoneno.': Long("9880632500"),
+    Address: 'Blore'
+  },
+  { _id: ObjectId("64c0a236ba06429412560300"), name: 'Madri', age: 24 },
+  {
+    _id: ObjectId("64c0a279ba06429412560301"),
+    name: 'Madri',
+    age: 24,
+    salary: 30000
+  }
+]
+bootcamp> db.employee.insertMany({name:"maanu",age:25,profession:"techer"},{name:"priya",age:26,profession:"unemployed"},{name:"kaanu",age:27})
+MongoInvalidArgumentError: Argument "docs" must be an array of documents
+bootcamp> db.employee.insertMany([{name:"maanu",age:25,profession:"techer"},{name:"priya",age:26,profession:"unemployed"},{name:"kaanu",age:27}]
+... db.employee.insertMany([{name:"maanu",age:25,profession:"techer"},{name:"priya",age:26,profession:"unemployed"},{name:"kaanu",age:27}])
+Uncaught:
+SyntaxError: Unexpected token, expected "," (2:0)
+
+  1 | db.employee.insertMany([{name:"maanu",age:25,profession:"techer"},{name:"priya",age:26,profession:"unemployed"},{name:"kaanu",age:27}]
+> 2 | db.employee.insertMany([{name:"maanu",age:25,profession:"techer"},{name:"priya",age:26,profession:"unemployed"},{name:"kaanu",age:27}])
+    | ^
+  3 |
+
+bootcamp> db.employee.insertMany([{name:"maanu",age:25},{name:"priya"},{name:"kaanu",age:27}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("64c0a4dbba06429412560302"),
+    '1': ObjectId("64c0a4dbba06429412560303"),
+    '2': ObjectId("64c0a4dbba06429412560304")
+  }
+}
+bootcamp> db.employee.find()
+[
+  {
+    _id: ObjectId("64c09c33e8b9b72b3afae551"),
+    name: 'Madhuri',
+    dept: 'data',
+    age: 22
+  },
+  {
+    _id: ObjectId("64c09d17e8b9b72b3afae552"),
+    name: 'Maani',
+    age: 23,
+    bonus: 1000
+  },
+  {
+    _id: ObjectId("64c09d62e8b9b72b3afae553"),
+    'phoneno.': Long("9880632500"),
+    Address: 'Blore'
+  },
+  { _id: ObjectId("64c0a236ba06429412560300"), name: 'Madri', age: 24 },
+  {
+    _id: ObjectId("64c0a279ba06429412560301"),
+    name: 'Madri',
+    age: 24,
+    salary: 30000
+  },
+  { _id: ObjectId("64c0a4dbba06429412560302"), name: 'maanu', age: 25 },
+  { _id: ObjectId("64c0a4dbba06429412560303"), name: 'priya' },
+  { _id: ObjectId("64c0a4dbba06429412560304"), name: 'kaanu', age: 27 }
+]
+bootcamp> db.employee.findOne()
+{
+  _id: ObjectId("64c09c33e8b9b72b3afae551"),
+  name: 'Madhuri',
+  dept: 'data',
+  age: 22
+}
+bootcamp> db.employee.findOne({age:22})
+{
+  _id: ObjectId("64c09c33e8b9b72b3afae551"),
+  name: 'Madhuri',
+  dept: 'data',
+  age: 22
+}
+bootcamp> db.employee.find({age:22})
+[
+  {
+    _id: ObjectId("64c09c33e8b9b72b3afae551"),
+    name: 'Madhuri',
+    dept: 'data',
+    age: 22
+  }
+]
+bootcamp> db.employee.find({age:22},{name:1})
+[ { _id: ObjectId("64c09c33e8b9b72b3afae551"), name: 'Madhuri' } ]
+bootcamp> db.employee.find({age:22},{dept:1})
+[ { _id: ObjectId("64c09c33e8b9b72b3afae551"), dept: 'data' } ]
+bootcamp> db.employee.find({age:22},{age:1})
+[ { _id: ObjectId("64c09c33e8b9b72b3afae551"), age: 22 } ]
+bootcamp> db.employee.find({age:27},{age:1})
+[ { _id: ObjectId("64c0a4dbba06429412560304"), age: 27 } ]
+bootcamp> db.employee.find({age:27},{name:1})
+[ { _id: ObjectId("64c0a4dbba06429412560304"), name: 'kaanu' } ]
+bootcamp> db.product.insertOne({_id:1,name:"virat",profession:"cricketer"})
+{ acknowledged: true, insertedId: 1 }
+bootcamp> db.product.insertOne({_id:2,name:"rohit",profession:"cricketer"})
+{ acknowledged: true, insertedId: 2 }
+bootcamp> db.product.insertOne({_id:3,name:"dhoni",profession:"cricketer"})
+{ acknowledged: true, insertedId: 3 }
+bootcamp> db.product.find()
+[
+  { _id: 1, name: 'virat', profession: 'cricketer' },
+  { _id: 2, name: 'rohit', profession: 'cricketer' },
+  { _id: 3, name: 'dhoni', profession: 'cricketer' }
+]
+bootcamp> show collections
+employee
+product
+bootcamp> db.product.updateOne({_id:1},{$set:{profession:"actor"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+bootcamp> db.product.find()
+[
+  { _id: 1, name: 'virat', profession: 'actor' },
+  { _id: 2, name: 'rohit', profession: 'cricketer' },
+  { _id: 3, name: 'dhoni', profession: 'cricketer' }
+]
+bootcamp>

@@ -1,0 +1,232 @@
+MONGODB COMPARISON OPERATORS
+use bootcamp
+switched to db bootcamp
+bootcamp> db.products.insertMany([
+...     { "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate": ISODate("2011-05-14"), "spec" : { "ram" : 4, "screen" : 6.5, "cpu" : 2.66 },"color":["white","black"],"storage":[64,128,256]},
+...     { "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate": ISODate("2011-09-01") , "spec" : { "ram" : 16, "screen" : 9.5, "cpu" : 3.66 },"color":["white","black","purple"],"storage":[128,256,512]},
+...     { "_id" : 3, "name" : "SmartTablet", "price" : 899, "releaseDate": ISODate("2015-01-14"), "spec" : { "ram" : 12, "screen" : 9.7, "cpu" : 3.66 },"color":["blue"],"storage":[16,64,128]},
+...     { "_id" : 4, "name" : "SmartPad", "price" : 699, "releaseDate": ISODate("2020-05-14"),"spec" : { "ram" : 8, "screen" : 9.7, "cpu" : 1.66 },"color":["white","orange","gold","gray"],"storage":[128,256,1024]},
+...     { "_id" : 5, "name" : "SmartPhone", "price" : 599,"releaseDate": ISODate("2022-09-14"), "spec" : { "ram" : 4, "screen" : 9.7, "cpu" : 1.66 },"color":["white","orange","gold","gray"],"storage":[128,256]}
+...  ])
+{
+  acknowledged: true,
+  insertedIds: { '0': 1, '1': 2, '2': 3, '3': 4, '4': 5 }
+}
+--------------------------------------------------------------------------------------
+EQUAL TO 
+--------------------------------------------------------------------------------------
+bootcamp> db.products.find({price:{$eq:899}},{name:1,price:1})
+bootcamp> db.products.find({price:{$eq:899}},{name:1,price:1})
+[
+  { _id: 2, name: 'xTablet', price: 899 },
+  { _id: 3, name: 'SmartTablet', price: 899 }
+]
+bootcamp> db.products.find({"spec.ram":{$eq:4}},{name:1,"spec.ram":1})
+[
+  { _id: 1, name: 'xPhone', spec: { ram: 4 } },
+  { _id: 5, name: 'SmartPhone', spec: { ram: 4 } }
+]
+bootcamp> db.products.find({colour:{$eq:"black"}},{name:1,color:1})
+
+bootcamp> db.products.find({colour:{$eq:"black"}},{name:1,color:1})
+
+bootcamp> db.products.find({colour:{$eq:"black"}},{name:1,color:1})
+
+bootcamp> db.products.find({color:{$eq:"black"}},{name:1,color:1})
+[
+  { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] },
+  { _id: 2, name: 'xTablet', color: [ 'white', 'black', 'purple' ] }
+]
+bootcamp> db.products.find({releaseDate:{$eq: new ISODate("2020-05-14")}},{name:1,releaseDate:1})
+[
+  {
+    _id: 4,
+    name: 'SmartPad',
+    releaseDate: ISODate("2020-05-14T00:00:00.000Z")
+  }
+]
+---------------------------------------------------------------------------------------------------
+LESSER THAN 
+----------------------------------------------------------------------------------------------------
+bootcamp> db.products.find({price:{$lt: 799}},{name:1,price:1})
+[
+  { _id: 4, name: 'SmartPad', price: 699 },
+  { _id: 5, name: 'SmartPhone', price: 599 }
+]
+bootcamp> db.products.find({"spec.screen":{$lt:7}},{name:1,"spec.screen":1})
+[ { _id: 1, name: 'xPhone', spec: { screen: 6.5 } } ]
+bootcamp> db.products.find({storage:{$lt:128}},{name:1,storage:1})
+[
+  { _id: 1, name: 'xPhone', storage: [ 64, 128, 256 ] },
+  { _id: 3, name: 'SmartTablet', storage: [ 16, 64, 128 ] }
+]
+bootcamp> db.products.find({"releaseDate":{$lt: new ISODate('2015-01-01')}},{name:1,releaseDate:1})
+[
+  {
+    _id: 1,
+    name: 'xPhone',
+    releaseDate: ISODate("2011-05-14T00:00:00.000Z")
+  },
+  {
+    _id: 2,
+    name: 'xTablet',
+    releaseDate: ISODate("2011-09-01T00:00:00.000Z")
+  }
+]
+---------------------------------------------------------------------------------------
+GREATER THAN
+---------------------------------------------------------------------------------------
+bootcamp> db.products.find({price:{$gt:699}},{name:1,price:1})
+[
+  { _id: 1, name: 'xPhone', price: 799 },
+  { _id: 2, name: 'xTablet', price: 899 },
+  { _id: 3, name: 'SmartTablet', price: 899 }
+]
+bootcamp> db.products.find({"spec.ram":{$gt:8}},{name:1,"spec.ra
+m":1})
+[
+  { _id: 2, name: 'xTablet', spec: { ram: 16 } },
+  { _id: 3, name: 'SmartTablet', spec: { ram: 12 } }
+]
+bootcamp> db.products.find({storage:{$gt:128}},{name:1,storage:1
+})
+[
+  { _id: 1, name: 'xPhone', storage: [ 64, 128, 256 ] },
+  { _id: 2, name: 'xTablet', storage: [ 128, 256, 512 ] },
+  { _id: 4, name: 'SmartPad', storage: [ 128, 256, 1024 ] },
+  { _id: 5, name: 'SmartPhone', storage: [ 128, 256 ] }
+]
+bootcamp> db.products.find({"releaseDate":{$dt: new ISODate('201
+5-01-01')}},{name:1,releaseDate:1})
+MongoServerError: unknown operator: $dt
+bootcamp> db.products.find({"releaseDate":{$gt: new ISODate('201
+5-01-01')}},{name:1,releaseDate:1})
+[
+  {
+    _id: 3,
+    name: 'SmartTablet',
+    releaseDate: ISODate("2015-01-14T00:00:00.000Z")
+  },
+  {
+    _id: 4,
+    name: 'SmartPad',
+    releaseDate: ISODate("2020-05-14T00:00:00.000Z")
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    releaseDate: ISODate("2022-09-14T00:00:00.000Z")
+  }
+]
+---------------------------------------------------------------------------------------------
+NOT EQUAL TO 
+---------------------------------------------------------------------------------------------
+bootcamp> db.products.find({price{$ne:899}},{name:1,price:1})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:23)
+
+> 1 | db.products.find({price{$ne:899}},{name:1,price:1})
+    |                        ^
+  2 |
+
+bootcamp> db.products.find({price:{$ne:899}},{name:1,price:1})
+[
+  { _id: 1, name: 'xPhone', price: 799 },
+  { _id: 4, name: 'SmartPad', price: 699 },
+  { _id: 5, name: 'SmartPhone', price: 599 }
+]
+bootcamp> db.products.find({"spec.screen":{$ne:9.7}},{name:1,"sp
+ec.screen":1})
+[
+  { _id: 1, name: 'xPhone', spec: { screen: 6.5 } },
+  { _id: 2, name: 'xTablet', spec: { screen: 9.5 } }
+]
+bootcamp> db.products.find({storage:{$ne:128}},{name:1,storage:1
+})
+
+bootcamp> db.products.find({storage:{$ne:128}},{name:1,storage:1})
+
+bootcamp> db.products.find({storage:{$ne:128}},{name:1,storage:1})
+
+bootcamp> db.products.find({releaseDate:{$ne:new ISODate('2015-01-14')}},{name:1,releaseDate:1})
+[
+  {
+    _id: 1,
+    name: 'xPhone',
+    releaseDate: ISODate("2011-05-14T00:00:00.000Z")
+  },
+  {
+    _id: 2,
+    name: 'xTablet',
+    releaseDate: ISODate("2011-09-01T00:00:00.000Z")
+  },
+  {
+    _id: 4,
+    name: 'SmartPad',
+    releaseDate: ISODate("2020-05-14T00:00:00.000Z")
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    releaseDate: ISODate("2022-09-14T00:00:00.000Z")
+  }
+]
+--------------------------------------------------------------------------------------
+IN OPERATOR
+--------------------------------------------------------------------------------------
+bootcamp> db.products.find({price:{$in:[599,799]}},{name:1,price
+price:1})
+[
+  { _id: 1, name: 'xPhone', price: 799 },
+  { _id: 5, name: 'SmartPhone', price: 599 }
+]
+bootcamp> db.products.find({color:{$ne:["black","white"]}},{name
+name:1,color:1})
+[
+  { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] },
+  { _id: 2, name: 'xTablet', color: [ 'white', 'black', 'purple' ] },
+  { _id: 3, name: 'SmartTablet', color: [ 'blue' ] },
+  {
+    _id: 4,
+    name: 'SmartPad',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  }
+]
+bootcamp> db.products.find({color:{$in:[/^g+/,/^w+/]}},{name:1,c
+color:1})
+[
+  { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] },
+  { _id: 2, name: 'xTablet', color: [ 'white', 'black', 'purple' ] },
+  {
+    _id: 4,
+    name: 'SmartPad',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  },
+  {
+    _id: 5,
+    name: 'SmartPhone',
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  }
+]
+----------------------------------------------------------------------
+NIN OPERATOR 
+----------------------------------------------------------------------
+bootcamp> db.products.find({price:{$nin:[599,799]}},{name:1,price:1})
+[
+  { _id: 2, name: 'xTablet', price: 899 },
+  { _id: 3, name: 'SmartTablet', price: 899 },
+  { _id: 4, name: 'SmartPad', price: 699 }
+]
+bootcamp> db.products.find({color:{$nin:["black","white"]}},{nam
+name:1,color:1})
+[ { _id: 3, name: 'SmartTablet', color: [ 'blue' ] } ]
+bootcamp> db.products.find({color:{$nin:[/^g+/,/^w+/]}},{name:1,
+color:1})
+[ { _id: 3, name: 'SmartTablet', color: [ 'blue' ] } ]
+----------------------------------------------------------------------
+----------------------------------------------------------------------
