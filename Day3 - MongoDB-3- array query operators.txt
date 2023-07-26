@@ -1,0 +1,28 @@
+ARRAY QUERY OPERATORS
+$SIZE operator 
+----------------------------------------------------------------
+bootcamp> db.products.find({color:{$size:2}},{name:1,color:1})
+[ { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] } ]
+bootcamp> db.products.find({$or:[{color:{$size:1}},{color:{$size
+$size:2}}]},{name:1,color:1})
+[
+  { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] },
+  { _id: 3, name: 'SmartTablet', color: [ 'blue' ] }
+]
+----------------------------------------------------------------
+$ALL operator
+----------------------------------------------------------------
+bootcamp> db.products.find({ color:{$all:["black","white"]}},{na
+name:1,color:1})
+[
+  { _id: 1, name: 'xPhone', color: [ 'white', 'black' ] },
+  { _id: 2, name: 'xTablet', color: [ 'white', 'black', 'purple' ] }
+]
+----------------------------------------------------------------
+$elemMatch operator 
+----------------------------------------------------------------
+bootcamp> db.products.find({ storage:{$elemMatch:{$lt:128}}},{name:1,storage:1});
+[
+  { _id: 1, name: 'xPhone', storage: [ 64, 128, 256 ] },
+  { _id: 3, name: 'SmartTablet', storage: [ 16, 64, 128 ] }
+]
