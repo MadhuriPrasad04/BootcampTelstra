@@ -1,0 +1,83 @@
+LOGICAL OPERATORS 
+-------------------
+$AND OPERATOR 
+--------------
+1) Product whose price is 849 AND color is either white or black.
+-----------------------------------------------------------------
+bootcamp> db.products.find({$and:[{price:849},{color:{$in:["white","black"]}}]},{name:1,price:1,color:1})
+
+[ { _id: 1, name: 'xPhone', price: 849, color: [ 'white', 'black' ] } ]
+
+2)Product whose price is 699 and the price exists
+-------------------------------------------------
+bootcamp> db.products.find({$and:[{price:699},{price:{$exists:true}}]},{name:1,price:1,color:1})
+[
+  {
+    _id: 4,
+    name: 'SmartPad',
+    price: 699,
+    color: [ 'white', 'orange', 'gold', 'gray' ]
+  }
+]
+------------------------------------------------------------------
+$OR OPERATOR 
+------------------------------------------------------------------
+1) Products whose price is either 799 or 895
+--------------------------------------------
+bootcamp> db.products.find({$or:[{price:799},{price:895}]},{name:1,price:1})
+[
+  { _id: 2, name: 'xTablet', price: 895 },
+  { _id: 3, name: 'SmartTablet', price: 895 }
+]
+
+2)Products whose price is less than 699 or greater than 799
+-----------------------------------------------------------
+bootcamp> db.products.find({$or:[{price:{$lt:699}},{price:{$gt:799}}]},{name:1,price:1})
+[
+  { _id: 1, name: 'xPhone', price: 849 },
+  { _id: 2, name: 'xTablet', price: 895 },
+  { _id: 3, name: 'SmartTablet', price: 895 },
+  { _id: 5, name: 'SmartPhone', price: 658.9000000000001 }
+]
+-----------------------------------------------------------------------------------
+$NOT OPERATOR 
+------------------------------------------------------------------------------------
+1) Products not greater than 699.
+---------------------------------
+bootcamp> db.products.find({price:{$not:{$gt:699}}},{name:1,price:1})
+[
+  { _id: 4, name: 'SmartPad', price: 699 },
+  { _id: 5, name: 'SmartPhone', price: 658.9000000000001 }
+]
+
+2) Product whose name is not /^Smart+/
+--------------------------------------
+bootcamp> db.products.find({name:{$not:/^Smart+/}},{name:1})
+[ { _id: 1, name: 'xPhone' }, { _id: 2, name: 'xTablet' } ]
+
+-----------------------------------------------------------------------------------
+$NOR operator 
+---------------------------------------------------------------------------------
+bootcamp> db.products.find({
+...     $nor :[
+...         { price: 899},
+...         { color: "gold"}
+...     ]
+... }, {
+...     name: 1,
+...     price: 1,
+...     color: 1
+... })
+[
+  { _id: 1, name: 'xPhone', price: 849, color: [ 'white', 'black' ] },
+  {
+    _id: 2,
+    name: 'xTablet',
+    price: 895,
+    color: [ 'white', 'black', 'purple' ]
+  },
+  { _id: 3, name: 'SmartTablet', price: 895, color: [ 'blue' ] }
+]
+
+
+
