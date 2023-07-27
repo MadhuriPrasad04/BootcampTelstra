@@ -1,0 +1,69 @@
+JAVA PRACTICE PROJECT - 2 : CAR APP
+-----------------------------------
+Display the details of the car along with the Status of the car depending on the kilometer driven
+
+package carappProj2;
+
+class Car
+{
+	int modelNo;
+	String modelName;
+	int kmDriven;
+	
+	Car(int modelNo, String modelName, int kmDriven)
+	{
+		this.modelNo = modelNo;
+		this.modelName = modelName;
+		this.kmDriven = kmDriven;
+	}
+	void displayCarDetails()
+	{
+		System.out.println("Model No: "+ modelNo);
+		System.out.println("Model Name: "+ modelName);
+		System.out.println("Km Driven: "+ kmDriven);
+	}
+	String checkCarStatus()
+	{
+			if(kmDriven < 5000)
+				return "It's a new car";
+			else if (kmDriven > 5000 && kmDriven <= 20000)
+				return "Car is in good condition";
+		return " ";
+				
+	}
+}
+
+public class CarApp {
+
+	public static void main(String[] args) {
+		Car car = new Car(2022, "honda", 12000);
+		/*car.modelNo=2022;
+		car.branchName = "honda";
+		car.kilometerDriven = 12000;*/
+		
+		Car car2 = new Car(2019,"suzuki",4000);
+		/*car2.modelNo=2019;
+		car2.branchName="suzuki";
+		car2.kilometerDriven=4000;*/
+		
+		car.displayCarDetails();
+		System.out.println(car.checkCarStatus());
+		
+		car2.displayCarDetails();
+		System.out.println(car2.checkCarStatus());
+					
+
+	}
+
+}
+
+OUTPUT:-
+-------
+Model No: 2022
+Model Name: honda
+Km Driven: 12000
+Car is in good condition
+Model No: 2019
+Model Name: suzuki
+Km Driven: 4000
+It's a new car
