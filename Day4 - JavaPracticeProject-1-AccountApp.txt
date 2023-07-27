@@ -1,0 +1,65 @@
+JAVA PRACTICE PROJECT-1 : ACCOUNT APP
+-------------------------------------
+Display the account details of a person along with the balance after withdrawing and depositing
+
+package accountappProj1;
+
+class Account
+{
+	int accountId;
+	String accountHolderName;
+	double balance;
+	
+	Account(int accountId, String accountHolderName, double balance)
+	{
+		this.accountId = accountId;
+		this.accountHolderName = accountHolderName;
+		this.balance = balance;
+	}
+	
+	void displayAccountDetails()
+	{
+		System.out.println("account id"+ accountId);
+		System.out.println("account holdername"+ accountHolderName);
+		System.out.println("balance"+ balance);
+	}
+	void withdraw(int amount)
+	{
+		balance-=amount;
+	}
+	void deposit(int amount1)
+	{
+		balance+=amount1;
+	}
+	double getBalance()
+	{
+		return balance;
+	}
+}
+
+
+public class AccountApp {
+
+	public static void main(String[] args) {
+		Account account = new Account(1001,"Madri",40000);
+				
+		account.displayAccountDetails();
+		System.out.println("Balance Initially:"+ account.getBalance());
+		account.withdraw(500);
+		System.out.println("Balance after withdrawing:"+ account.getBalance());
+		account.deposit(500);
+		System.out.println("Balance after depositing:"+ account.getBalance());
+				
+
+	}
+
+}
+
+OUTPUT:-
+--------
+account id : 1001
+account holdername : Madri
+balance : 40000.0
+Balance Initially : 40000.0
+Balance after withdrawing : 39500.0
+Balance after depositing : 40000.0
